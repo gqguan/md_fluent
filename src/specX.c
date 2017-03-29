@@ -486,10 +486,11 @@ DEFINE_ON_DEMAND(OutputCells_0913)
 	return;
 }
 
-DEFINE_ON_DEMAND(ReynoldsNumber_1117)
+DEFINE_ON_DEMAND(ParameterList_0329)
 /*
-	[objectives] output influent's Reynolds number
-	[Preliminary] regist the 3 input parameters
+	[objectives] 1. check the parameters passed from ANSYS Workbench
+	             2. output influent's Reynolds number
+	[Preliminary] regist the 6 input parameters
 	[methods] 1. get the parameter one by one
 	          2. set the hydraulic diameter
 						3. get the fluid properties according to the given temperature and concentration (in mass fraction)
@@ -498,14 +499,18 @@ DEFINE_ON_DEMAND(ReynoldsNumber_1117)
 	[outputs] FLUENT command-line output
 */
 {
-	real vin = RP_Get_Input_Parameter("real-1"); // Get the parameter as input
-	real tin = RP_Get_Input_Parameter("real-2");
-	real win = RP_Get_Input_Parameter("real-3");
+	real vf_in = RP_Get_Input_Parameter("real-1"); // Get the parameter as input
+	real Tf_in = RP_Get_Input_Parameter("real-2");
+	real wf_in = RP_Get_Input_Parameter("real-3");
+	real vp_in = RP_Get_Input_Parameter("real-4");
+	real Tp_in = RP_Get_Input_Parameter("real-5");
+	real MDC   = RP_Get_Input_Parameter("real-6");
 	real diam_h = 0.01875;
-	real rho = Density_aqNaCl(tin, win);
-	real mu = Viscosity_aqNaCl(tin, win);
-	real Re = diam_h*vin*rho/mu;
-	Message("Re_feed = %g\n", Re);
+	real rho = Density_aqNaCl(Tf_in, wf_in);
+	real mu = Viscosity_aqNaCl(Tf_in, wf_in);
+	real Re = diam_h*vf_in*rho/mu;
+	Message("Input parameter 1 = %g, 2 = %g, 3 = %g, 4 = %g, 5 = %g, 6 = %g\n", vf_in, Tf_in, wf_in, vp_in, Tp_in, MDC);
+	Message("Calculated Re_feed = %g\n", Re);
 }
 
 DEFINE_OUTPUT_PARAMETER(Parameter_Re, n, parlist)
