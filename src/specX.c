@@ -31,7 +31,7 @@ void GetProp_Membrane(real temperature) // Get the properties of the membrane fo
 	membrane.porosity = 0.7;
 	membrane.tortuosity = 1.2;
 	membrane.conductivity = ThermCond_Maxwell(temperature, membrane.porosity, PTFE);
-	membrane.MDcoeff = 8.88e-7;
+	membrane.MDcoeff = RP_Get_Input_Parameter("real-6"); // Get the membrane distillation coefficient from the parameter list of ANSYS Workbench
 }
 
 void Monitor_CellPair(int opt, int rec_idx, int idx_cells)
